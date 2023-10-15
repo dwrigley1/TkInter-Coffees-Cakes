@@ -1,0 +1,156 @@
+import tkinter
+from tkinter import *
+from tkinter import IntVar, messagebox
+from tkinter.ttk import *
+from PIL import ImageTk, Image
+
+#define window
+root = tkinter.Tk()
+root.title('Coffees & Cakes')
+root.iconbitmap('coffee.ico')
+root.geometry('450x650')
+root.resizable(0,0)
+root.config(bg='#000000')
+
+# common font type to refer back to for all frames
+font_type=('Courier', 10, 'bold italic')
+font_type2=('Courier',9,'bold italic')
+coffee_color = '#81523f'
+dairy_color = '#fff8e8'
+sweetener_color = '#e28413'
+pastry_color = '#ffcad4'
+
+#setting background image
+background_main_img=tkinter.PhotoImage(file= "cafe.png")
+background_main = tkinter.Label(root, image=background_main_img)
+background_main.place(anchor="center")
+
+# define functions
+def select_size():
+    global coffee_price
+    if number.get() == 1:
+        coffee_price = 1
+    if number.get() == 2:
+        coffee_price = 2
+    if number.get() == 3:
+        coffee_price = 3
+
+def select_dairy():
+    global dairy_price
+    if digit.get() == 1:
+        dairy_price = 1
+    if digit.get() == 2:
+        dairy_price = 2
+    if digit.get() == 3:
+        dairy_price = 3
+    
+def select_sweetener():
+    global sweetener_price
+    if figure.get() == 1:
+        sweetener_price = 1
+    if figure.get() == 2:
+        sweetener_price = 2
+    if figure.get() == 0:
+        sweetener_price = 0
+        
+def select_pastry():
+    global pastry_price
+    if amount.get() == 1:
+        pastry_price = 1
+    if amount.get() == 2:
+        pastry_price = 2
+    if amount.get() == 3:
+        pastry_price = 3
+    if amount.get() == 0:
+        pastry_price = 0
+        
+def order_total():
+    try:
+        global total_price
+        total_price = coffee_price + dairy_price + sweetener_price + pastry_price
+        messagebox.showinfo("Total", "Your order total is $" + str(total_price))
+    except NameError:
+        messagebox.showerror("ERROR", "Be Sure To Click 'SELECT' At Each Option!")
+
+# define frames
+coffee_frame = tkinter.LabelFrame(root, width=350, height=100, text='Cup Size', font=font_type, bg=coffee_color)
+coffee_frame.pack(padx=10,pady=10)
+cream_frame = tkinter.LabelFrame(root, width=350, height=100, text='Dairy', font=font_type, bg=dairy_color)
+cream_frame.pack(padx=10, pady=10)
+sweetener_frame = tkinter.LabelFrame(root, width=350, height=100, text='Sweetener', font=font_type, bg=sweetener_color)
+sweetener_frame.pack(padx=10, pady=10)
+pastry_frame = tkinter.LabelFrame(root, width=350, height=100, text='Pastries', font=font_type, bg=pastry_color)
+pastry_frame.pack(padx=10, pady=10)
+
+# IntVar() function holds integer data where we can set integer data and can retrieve it as well using getter and setter methods
+number = IntVar()
+digit = IntVar()
+figure = IntVar()
+amount = IntVar()
+
+# pre-selects which bubble is filled
+number.set(1)
+digit.set(1)
+figure.set(1)
+amount.set(1)
+
+# define coffee cup size button
+small_cup = tkinter.Radiobutton(coffee_frame, text='Small Coffee', variable=number, value=1, font=font_type2, bg=coffee_color)
+medium_cup = tkinter.Radiobutton(coffee_frame, text='Medium Coffee', variable=number,value=2, font=font_type2, bg=coffee_color)
+large_cup = tkinter.Radiobutton(coffee_frame, text='Large Coffee', variable=number, value=3, font=font_type2, bg=coffee_color)
+select_button = tkinter.Button(coffee_frame, text='Select', command=select_size, font=font_type, bg=coffee_color)
+
+# define coffee cup size button locations
+small_cup.grid(row=0, column=0, padx=10, pady=10)
+medium_cup.grid(row=0,column=1,padx=10,pady=10)
+large_cup.grid(row=0, column=2, padx=10, pady=10)
+select_button.grid(row=1,column=0,columnspan=4,padx=10,pady=10)
+
+# define dairy buttons
+cream_rb = tkinter.Radiobutton(cream_frame, text='Cream', variable=digit, value=1, font=font_type2, bg=dairy_color)
+milk_rb = tkinter.Radiobutton(cream_frame, text='Milk', variable=digit, value=2, font=font_type2, bg=dairy_color)
+half_rb = tkinter.Radiobutton(cream_frame, text='Half & Half', variable=digit, value=3, font=font_type2, bg=dairy_color)
+select2_button = tkinter.Button(cream_frame, text='Select', command=select_dairy, font=font_type2, bg=dairy_color)
+
+#define dairy button locations
+cream_rb.grid(row=0, column=0, padx=10, pady=10)
+milk_rb.grid(row=0, column=1, padx=10, pady=10)
+half_rb.grid(row=0, column=2, padx=10, pady=10)
+select2_button.grid(row=1, column=0, columnspan=4, padx=10, pady=10)
+
+#define sweetener buttons
+sugar_rb = tkinter.Radiobutton(sweetener_frame, text='Sugar', variable=figure, value=1, font=font_type2, bg=sweetener_color)
+splenda_rb = tkinter.Radiobutton(sweetener_frame, text='Splenda', variable=figure, value=2, font=font_type2, bg=sweetener_color)
+none_rb = tkinter.Radiobutton(sweetener_frame, text='No Sweetener', variable=figure, value=0, font=font_type2, bg=sweetener_color)
+select3_button = tkinter.Button(sweetener_frame, text='Select', command=select_sweetener, font=font_type2, bg=sweetener_color)
+
+# define sweetener button locations
+sugar_rb.grid(row=0, column=0, padx=10, pady=10)
+splenda_rb.grid(row=0, column=1, padx=10, pady=10)
+none_rb.grid(row=0, column=2, padx=10, pady=10)
+select3_button.grid(row=1, column=0, columnspan=4, padx=10, pady=10)
+
+# define pastry buttons
+donut_rb = tkinter.Radiobutton(pastry_frame, text='Donut',variable=amount,value=1, font=font_type2, bg=pastry_color)
+muffin_rb = tkinter.Radiobutton(pastry_frame, text='Muffin', variable=amount, value=2, font=font_type2, bg=pastry_color)
+danish_rb = tkinter.Radiobutton(pastry_frame, text='Danish', variable=amount, value=3, font=font_type2, bg=pastry_color)
+no_pastry_rb = tkinter.Radiobutton(pastry_frame, text='Nope, Just A Coffee!', variable=amount, value=0, font=font_type2, bg=pastry_color)
+select4_button = tkinter.Button(pastry_frame, text='Select', command=select_pastry, font=font_type2, bg=pastry_color)
+
+# define pastry button locations
+donut_rb.grid(row=0, column=0, padx=10, pady=10)
+muffin_rb.grid(row=0, column=1, padx=10, pady=10)
+danish_rb.grid(row=0, column=2, padx=10, pady=10)
+no_pastry_rb.grid(row=1, column=1, padx=10, pady=10)
+select4_button.grid(row=2, column=0, columnspan=4, padx=10, pady=10)
+
+# define order total button & location
+order_button = tkinter.Button(root, text='O R D E R', command=order_total, font=font_type2, bg='#000000', fg='#ffffff', width=10)
+order_button.pack()
+
+# define exit button & location 
+exit_button = tkinter.Button(root, text="E X I T - T H E - C A F E", font=font_type2, bg='#000000', fg='#ffffff', command=root.destroy) 
+exit_button.pack()
+
+# run root window's main loop
+root.mainloop()
